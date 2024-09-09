@@ -11,6 +11,11 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
 	title: "SVG to React Icon Converter",
 	description: "Convert your SVG files to Lucide-like React components",
+	icons: {
+		icon: "/favicon.ico",
+		apple: "/favicon.ico",
+		shortcut: "/favicon.ico",
+	},
 };
 
 export default function RootLayout({

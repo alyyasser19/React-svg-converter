@@ -9,7 +9,7 @@ import { ReactQueryProvider } from "./_components/providers/ReactQueryProvider";
 export default function Home() {
 	return (
 		<ReactQueryProvider>
-			<Card className="max-w-3xl mx-auto shadow-lg">
+			<Card className="max-w-4xl mx-auto shadow-lg">
 				<CardContent className="p-6">
 					<Tabs defaultValue="dropzone" className="space-y-6">
 						<TabsList className="grid w-full grid-cols-2 bg-muted rounded-lg p-1">

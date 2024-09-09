@@ -7,6 +7,7 @@ import { Copy, Download } from "lucide-react";
 import { useTheme } from "next-themes";
 import React, { useState } from "react";
 import { toast } from "../_hooks/use-toast";
+import { SVGPreview } from "./SVGPreview";
 
 interface ConvertedCodeProps {
 	code: string;
@@ -44,42 +45,50 @@ export function ConvertedCode({ code }: ConvertedCodeProps) {
 	};
 
 	return (
-		<div className="mt-4 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
-			<div className="bg-gray-100 dark:bg-gray-800 px-4 py-2 flex items-center justify-between">
-				<div className="flex items-center space-x-2">
-					<div className="w-3 h-3 rounded-full bg-red-500" />
-					<div className="w-3 h-3 rounded-full bg-yellow-500" />
-					<div className="w-3 h-3 rounded-full bg-green-500" />
-					<span className="ml-2 text-sm font-medium">converted-icon.tsx</span>
+		<div className="flex flex-col gap-4 lg:flex-row">
+			<div className="mt-4 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
+				<div className="bg-gray-100 dark:bg-gray-800 px-4 py-2 flex items-center justify-between">
+					<div className="flex items-center space-x-2">
+						<div className="w-3 h-3 rounded-full bg-red-500" />
+						<div className="w-3 h-3 rounded-full bg-yellow-500" />
+						<div className="w-3 h-3 rounded-full bg-green-500" />
+						<span className="ml-2 text-sm font-medium">converted-icon.tsx</span>
+					</div>
+					<div className="flex space-x-2">
+						<Button
+							size="sm"
+							variant="ghost"
+							type="button"
+							onClick={handleCopy}
+						>
+							<Copy className="w-4 h-4 mr-2" />
+							{copied ? "Copied!" : "Copy"}
+						</Button>
+						<Button
+							size="sm"
+							variant="ghost"
+							type="button"
+							onClick={handleDownload}
+						>
+							<Download className="w-4 h-4 mr-2" />
+							Download
+						</Button>
+					</div>
 				</div>
-				<div className="flex space-x-2">
-					<Button size="sm" variant="ghost" type="button" onClick={handleCopy}>
-						<Copy className="w-4 h-4 mr-2" />
-						{copied ? "Copied!" : "Copy"}
-					</Button>
-					<Button
-						size="sm"
-						variant="ghost"
-						type="button"
-						onClick={handleDownload}
-					>
-						<Download className="w-4 h-4 mr-2" />
-						Download
-					</Button>
-				</div>
+				<CodeMirror
+					value={code}
+					extensions={[
+						javascript({
+							jsx: true,
+							typescript: true,
+						}),
+					]}
+					theme={resolvedTheme === "dark" ? tokyoNight : tokyoNightDay}
+					readOnly={true}
+					className="overflow-y-auto resize-y min-h-[200px] max-h-[500px]"
+				/>
 			</div>
-			<CodeMirror
-				value={code}
-				extensions={[
-					javascript({
-						jsx: true,
-						typescript: true,
-					}),
-				]}
-				theme={resolvedTheme === "dark" ? tokyoNight : tokyoNightDay}
-				readOnly={true}
-				className="overflow-y-auto resize-y min-h-[200px] max-h-[500px]"
-			/>
+			<SVGPreview code={code} />
 		</div>
 	);
 }

@@ -37,7 +37,9 @@ export function CodeEditor() {
 					{isPending ? "Converting..." : "Convert SVG"}
 				</Button>
 			)}
-			{data && <ConvertedCode code={data} />}
+			{data?.code && data?.title && (
+				<ConvertedCode code={data.code} title={data.title} />
+			)}
 		</form>
 	);
 }

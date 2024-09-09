@@ -12,11 +12,23 @@ type SvgNode = {
 
 export async function convertSvgToReact(formData: FormData) {
 	let svgContent = formData.get("svg");
+	let componentTitle = "ReactIcon";
 
 	if (!svgContent) {
 		return { success: false, error: "No SVG content provided" };
 	}
 	if (svgContent instanceof File) {
+		componentTitle = svgContent.name
+			.replace(/\.svg$/, "")
+			.split(/[-_\s]+/)
+			.map((word, index) =>
+				index === 0
+					? word.toLowerCase()
+					: word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+			)
+			.join("");
+		componentTitle = `${componentTitle.charAt(0).toUpperCase() + componentTitle.slice(1)}Icon`;
+
 		svgContent = await svgContent.text();
 	}
 
@@ -42,14 +54,13 @@ export async function convertSvgToReact(formData: FormData) {
 		const svgAttributes = svgElement.properties || {};
 		const svgChildren = svgElement.children || [];
 
-		const componentName = "ReactIcon";
 		const componentCode = generateComponentCode(
-			componentName,
+			componentTitle,
 			svgAttributes,
 			svgChildren,
 		);
 
-		return { success: true, code: componentCode };
+		return { success: true, code: componentCode, title: componentTitle };
 	} catch (error) {
 		console.error("Error converting SVG:", error);
 		return { success: false, error: "Error converting SVG. Please try again." };
@@ -72,7 +83,7 @@ function findSvgElement(node: SvgNode): SvgNode | null {
 }
 
 function generateComponentCode(
-	componentName: string,
+	componentTitle: string,
 	svgAttributes: { [key: string]: string | number | boolean },
 	svgChildren: SvgNode[],
 ): string {
@@ -80,14 +91,14 @@ function generateComponentCode(
 
 	return `import type React from 'react';
 
-interface ${componentName}Props extends React.SVGProps<SVGSVGElement> {
+interface ${componentTitle}Props extends React.SVGProps<SVGSVGElement> {
   size?: string | number;
   color?: string;
   strokeWidth?: string | number;
   absoluteStrokeWidth?: boolean;
 }
 
-const ${componentName}: React.FC<${componentName}Props> = ({
+const ${componentTitle}: React.FC<${componentTitle}Props> = ({
   size = 24,
   color = 'currentColor',
   strokeWidth = 2,
@@ -108,14 +119,13 @@ const ${componentName}: React.FC<${componentName}Props> = ({
       strokeLinejoin="round"
       {...props}
     >
-      // TODO: Add title
-      <title>${svgAttributes.title || componentName}</title>
+      <title>${svgAttributes.title || componentTitle}</title>
       ${generateSvgContent(svgChildren)}
     </svg>
   );
 };
 
-export default ${componentName};
+export default ${componentTitle};
 `;
 }
 

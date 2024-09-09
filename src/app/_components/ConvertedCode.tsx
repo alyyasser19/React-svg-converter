@@ -11,9 +11,10 @@ import { SVGPreview } from "./SVGPreview";
 
 interface ConvertedCodeProps {
 	code: string;
+	title: string;
 }
 
-export function ConvertedCode({ code }: ConvertedCodeProps) {
+export function ConvertedCode({ code, title }: ConvertedCodeProps) {
 	const [copied, setCopied] = useState(false);
 	const { resolvedTheme } = useTheme();
 
@@ -32,15 +33,14 @@ export function ConvertedCode({ code }: ConvertedCodeProps) {
 		const url = URL.createObjectURL(blob);
 		const a = document.createElement("a");
 		a.href = url;
-		a.download = "converted-icon.tsx";
+		a.download = `${title}.tsx`;
 		document.body.appendChild(a);
 		a.click();
 		document.body.removeChild(a);
 		URL.revokeObjectURL(url);
 		toast({
 			title: "File downloaded",
-			description:
-				"The converted code has been downloaded as 'converted-icon.tsx'.",
+			description: `The converted code has been downloaded as '${title}.tsx'.`,
 		});
 	};
 
@@ -52,7 +52,7 @@ export function ConvertedCode({ code }: ConvertedCodeProps) {
 						<div className="w-3 h-3 rounded-full bg-red-500" />
 						<div className="w-3 h-3 rounded-full bg-yellow-500" />
 						<div className="w-3 h-3 rounded-full bg-green-500" />
-						<span className="ml-2 text-sm font-medium">converted-icon.tsx</span>
+						<span className="ml-2 text-sm font-medium">{title}.tsx</span>
 					</div>
 					<div className="flex space-x-2">
 						<Button

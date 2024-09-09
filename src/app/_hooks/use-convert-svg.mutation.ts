@@ -7,7 +7,7 @@ export default function useConvertSvgMutation() {
 		mutationFn: async (formData: FormData) => {
 			const response = await convertSvgToReact(formData);
 			if (response.success) {
-				return response.code;
+				return { code: response.code, title: response.title };
 			}
 			throw new Error(response.error);
 		},

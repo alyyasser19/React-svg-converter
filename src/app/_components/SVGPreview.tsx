@@ -44,6 +44,8 @@ export function SVGPreview({ code }: SVGPreviewProps) {
 		/>
 	));
 
+	SVGComponent.displayName = "SVGComponent";
+
 	return (
 		<div className="mt-4 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900  w-full h-auto">
 			<div className="bg-gray-100 dark:bg-gray-800 px-4 py-2 flex items-center">

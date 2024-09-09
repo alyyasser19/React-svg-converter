@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
+import { javascript } from "@codemirror/lang-javascript";
+import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
+import { tokyoNightDay } from "@uiw/codemirror-theme-tokyo-night-day";
+import CodeMirror from "@uiw/react-codemirror";
 import { Copy, Download } from "lucide-react";
+import { useTheme } from "next-themes";
 import React, { useState } from "react";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { toast } from "../_hooks/use-toast";
 
 interface ConvertedCodeProps {
@@ -11,6 +14,7 @@ interface ConvertedCodeProps {
 
 export function ConvertedCode({ code }: ConvertedCodeProps) {
 	const [copied, setCopied] = useState(false);
+	const { resolvedTheme } = useTheme();
 
 	const handleCopy = async () => {
 		await navigator.clipboard.writeText(code);
@@ -40,7 +44,7 @@ export function ConvertedCode({ code }: ConvertedCodeProps) {
 	};
 
 	return (
-		<div className="mt-4 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+		<div className="mt-4 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
 			<div className="bg-gray-100 dark:bg-gray-800 px-4 py-2 flex items-center justify-between">
 				<div className="flex items-center space-x-2">
 					<div className="w-3 h-3 rounded-full bg-red-500" />
@@ -64,17 +68,18 @@ export function ConvertedCode({ code }: ConvertedCodeProps) {
 					</Button>
 				</div>
 			</div>
-			<SyntaxHighlighter
-				language="typescript"
-				style={vscDarkPlus}
-				customStyle={{
-					margin: 0,
-					borderRadius: 0,
-					maxHeight: "400px",
-				}}
-			>
-				{code}
-			</SyntaxHighlighter>
+			<CodeMirror
+				value={code}
+				extensions={[
+					javascript({
+						jsx: true,
+						typescript: true,
+					}),
+				]}
+				theme={resolvedTheme === "dark" ? tokyoNight : tokyoNightDay}
+				readOnly={true}
+				className="overflow-y-auto resize-y min-h-[200px] max-h-[500px]"
+			/>
 		</div>
 	);
 }

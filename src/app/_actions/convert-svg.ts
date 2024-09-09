@@ -78,8 +78,7 @@ function generateComponentCode(
 ): string {
 	const viewBox = svgAttributes.viewBox || "0 0 24 24";
 
-	return `
-import type React from 'react';
+	return `import type React from 'react';
 
 interface ${componentName}Props extends React.SVGProps<SVGSVGElement> {
   size?: string | number;

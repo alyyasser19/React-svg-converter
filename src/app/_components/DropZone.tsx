@@ -10,7 +10,7 @@ import UploadIcon from "./Icons/UploadIcon";
 export function DropZone() {
 	const [file, setFile] = useState<File | null>(null);
 
-	const { mutate, isPending, isSuccess, data } = useConvertSvgMutation();
+	const { mutate, isPending, data } = useConvertSvgMutation();
 
 	const onDrop = useCallback((acceptedFiles: File[]) => {
 		setFile(acceptedFiles[0]);
@@ -36,7 +36,7 @@ export function DropZone() {
 		<form onSubmit={handleSubmit}>
 			<div
 				{...getRootProps()}
-				className={`p-8 border-2 border-dashed rounded-lg text-center cursor-pointer transition-colors ${
+				className={`p-8 border-2 border-dashed rounded-lg h-[300px] flex flex-col justify-center items-center text-center cursor-pointer transition-colors ${
 					isDragActive
 						? "border-primary bg-primary/10"
 						: "border-muted-foreground hover:border-primary"
@@ -55,7 +55,7 @@ export function DropZone() {
 					{isPending ? "Converting..." : "Convert SVG"}
 				</Button>
 			)}
-			{isSuccess && data && <ConvertedCode code={data} />}
+			{data && <ConvertedCode code={data} />}
 		</form>
 	);
 }

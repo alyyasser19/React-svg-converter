@@ -15,7 +15,7 @@ export function Navbar() {
 					<ModeToggle />
 					<Button variant="outline" size="icon" asChild>
 						<Link
-							href="https://github.com/alyyasser19/React-svg-convertor"
+							href="https://github.com/alyyasser19/React-svg-converter"
 							target="_blank"
 							rel="noopener noreferrer"
 						>

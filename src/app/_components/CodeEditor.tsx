@@ -17,7 +17,8 @@ export function CodeEditor() {
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const formData = new FormData(event.target as HTMLFormElement);
+		const formData = new FormData();
+		formData.append("svg", svgCode);
 		mutate(formData);
 	};
 

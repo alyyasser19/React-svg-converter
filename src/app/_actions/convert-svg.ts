@@ -155,11 +155,11 @@ function generateSvgContent(
 
 						switch (camelKey) {
 							case "fill":
-								return `fill="${"currentColor"}"`;
+								return `fill="${value ?? "currentColor"}"`;
 							case "stroke":
-								return `stroke="${"currentColor"}"`;
+								return `stroke="${value ?? "currentColor"}"`;
 							case "strokeWidth":
-								return `strokeWidth="${strokeWidthValue}"`;
+								return `strokeWidth="${value ?? strokeWidthValue}"`;
 							case "class":
 								return `className="${value}"`;
 							case "style": {
@@ -206,7 +206,6 @@ function generateSvgContent(
 		})
 		.join("\n");
 }
-
 
 function cleanupSvgContent(svgContent: string): string {
 	return svgContent
